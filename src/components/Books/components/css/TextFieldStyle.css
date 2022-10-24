@@ -1,0 +1,28 @@
+.errorMessage {
+  color: #ff3333;
+  font-size: 14px;
+}
+
+.text-field-header {
+  color: #313236;
+  font-size: 14px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.input-container input,
+textarea {
+  border: 0.5px solid #3333;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+*:focus {
+  outline: none;
+}

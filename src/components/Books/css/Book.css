@@ -1,0 +1,13 @@
+.book-form {
+  width: 75%;
+}
+
+@media only screen and (max-width: 600px) {
+  .book-form {
+    width: 100%;
+  }
+
+  #bookImage {
+    display: none;
+  }
+}
