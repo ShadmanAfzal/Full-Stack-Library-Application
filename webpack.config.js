@@ -14,7 +14,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 export default {
-    mode: 'development',
+    mode: 'production',
     entry: "./src/index.js",
     output: {
         path: path.join(__dirname, 'dist'),

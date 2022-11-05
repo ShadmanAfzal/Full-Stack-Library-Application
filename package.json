@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "babel-watch app.js",
     "start": "node app.js",
-    "build": "webpack --mode production && node app.js",
-    "heroku-postbuild": "npm run build"
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
