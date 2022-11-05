@@ -2,7 +2,14 @@ import { Sequelize } from "sequelize";
 import { config } from "../../config/config.js";
 import BookModel from "../Model/book.model.js";
 
-const client = new Sequelize(config.DATABASE_URL, { logging: false });
+const client = new Sequelize(config.DATABASE_URL, {
+    logging: false,
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+        ssl: true
+    }
+});
 
 client.authenticate()
     .then(() => console.log('connected to database'))
