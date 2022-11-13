@@ -9,7 +9,7 @@ import bookImage from '../../assets/book.jpg';
 import "./css/EditBookStyle.css";
 import * as Yup from "yup";
 import "./css/Book.css"
-
+import { Loader } from './components/Loader';
 
 export const EditBook = () => {
 
@@ -36,6 +36,8 @@ export const EditBook = () => {
             const jsonRespone = await bookResponse.json();
             console.log(jsonRespone);
 
+            await new Promise((resolve, reject) => setTimeout(()=> resolve(), 2000));
+
             setBookDetails({
                 id: jsonRespone.data.id,
                 title: jsonRespone.data.title,
@@ -45,6 +47,8 @@ export const EditBook = () => {
                 genre: jsonRespone.data.genre,
 
             });
+
+
             setLoading(false);
         }
     }
@@ -86,7 +90,7 @@ export const EditBook = () => {
 
     return <div>
         <AppBar />
-        {isLoading && <div className='loader-container' />}
+        {isLoading && <Loader />}
         <div className='container'>
             <div className='row'>
                 <div className='col-md-7'>
