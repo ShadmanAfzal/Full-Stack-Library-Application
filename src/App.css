@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&display=swap');
+
+.user-container {
+  color: white;
+  font-family: "Delius";
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.logo {
+  font-family: "Delius";
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.user-avatar {
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import { utils, writeFile } from "xlsx";
 
@@ -7,9 +8,14 @@ import { BookTable } from "./components/BookTable";
 import { Dropdown } from "../../utils/Dropdown";
 import { Pagination } from "@mui/material";
 import { BOOK_CATEGORY, SORT_BY } from "../../utils/enum";
-import { HiDownload } from 'react-icons/hi'
+import { HiDownload, HiPlus } from 'react-icons/hi'
+
+
 
 export const Books = () => {
+
+    const navigator = useNavigate();
+
     const [books, setBooks] = useState([]);
     const [totalPage, setTotalPage] = useState();
     const [filter, setFilter] = useState();
@@ -135,6 +141,14 @@ export const Books = () => {
                     onClick={downloadBooks}>
                     <HiDownload />
                     Export
+                </button>
+                <button
+                    className="btn btn-sm bg-dark text-white"
+                    onClick={() => {
+                        navigator('/add')
+                    }}>
+                    <HiPlus />
+                    Add Books
                 </button>
             </div>
         </div>

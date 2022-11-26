@@ -4,3 +4,10 @@
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
 }
+
+.user-avatar {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

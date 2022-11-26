@@ -13,6 +13,12 @@ import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackConfig from './webpack.config.js';
 
+import passport from 'passport';
+
+import auth from './server/Middleware/auth.js';
+import { googleStrategy } from './server/Middleware/googleStrategy.js';
+import { express_session } from './server/Middleware/session.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -34,16 +40,39 @@ if (config.NODE_ENV === 'development') {
     app.use(webpackHotMiddleware(compiler));
 }
 
+app.use(express_session);
+
+app.set('trust proxy', 1);
+
+app.use(passport.initialize());
+
+app.use(passport.session());
+
+passport.serializeUser(function (user, cb) {
+    cb(null, user);
+});
+
+passport.deserializeUser(function (obj, cb) {
+    cb(null, obj);
+});
+
+passport.use(googleStrategy);
+
 app.use(express.json());
 
 app.use(cors());
 
+app.use('/auth', auth.authRouter);
+
+app.get('/', auth.isAuthenticated, (req, res) => res.sendFile(HTML_FILE));
+
 app.use(express.static(DIST_DIR));
 
-app.get('/', (req, res) => res.sendFile(HTML_FILE));
+app.use('/api/v1/books', auth.isAuthenticated, booksRouter);
 
-app.use('/api/v1/books', booksRouter);
+app.use('/user', auth.isAuthenticated ,(req, res) => res.send(req.user))
 
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server is listening on PORT : ${PORT}`));
+
