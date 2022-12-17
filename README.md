@@ -16,3 +16,50 @@ Full Stack Library Application built with PERN Stack.
 3) 📙 Sequelize ORM.
 4) 📝 Formik and Yup for form validation.
 5) 🐋 Docker
+
+## Setup 
+
+Install docker and docker compose
+
+```console
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
+
+Create docker-compose.yaml file in root directory.
+
+```yaml
+version: '3.9'
+
+services:
+  server:
+    build: .
+    ports:
+      - '5000:5000'
+    expose:
+      - 5000
+    environment:
+      PORT: 5000
+      DATABASE_URL: 
+      NODE_ENV: 
+      SESSION_KEY:
+      SESSION_SECRET:
+      Client_ID:
+      Client_Secret:
+      CALLBACK_URL:
+  db:
+    image: 'postgres'
+    environment:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER: 'postgres'
+    volumes:
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:
+```
+
+Start the docker container
+
+```console
+sudo docker compose up --build -d
+```
