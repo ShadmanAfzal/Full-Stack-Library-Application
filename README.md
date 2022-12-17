@@ -21,8 +21,16 @@ Full Stack Library Application built with PERN Stack.
 
 Install docker and docker compose
 
-```console
+```bash
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
+
+Clone the Repo
+
+```bash
+git clone https://github.com/ShadmanAfzal/Full-Stack-Library-Application.git
+cd Full-Stack-Library-Application
+
 ```
 
 Create docker-compose.yaml file in root directory.
@@ -60,6 +68,6 @@ volumes:
 
 Start the docker container
 
-```console
+```bash
 sudo docker compose up --build -d
 ```
