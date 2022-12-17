@@ -20,7 +20,6 @@ authRouter.get('/google/callback', passport.authenticate(
 
 
 const isAuthenticated = (req, res, next) => {
-    console.log(req.user);
     if (req.isAuthenticated()) return next();
 
     return res.redirect('/auth/login');

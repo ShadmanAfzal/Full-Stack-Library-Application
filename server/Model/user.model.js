@@ -1,31 +1,29 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-const BookModel = {
+const UserModel = {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
     },
-    title: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    description: {
+    emailId: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    author: {
+    photoURL: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    photo_url: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    genre: {
-        type: DataTypes.STRING,   
+    role: {
+        type: DataTypes.ENUM,
+        values: ['Admin', 'User'],
+        defaultValue: 'User'
     },
 }
 
-export default BookModel;
+export default UserModel;

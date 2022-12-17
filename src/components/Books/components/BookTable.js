@@ -3,12 +3,14 @@ import { FiEdit, FiTrash2 } from "react-icons/fi"
 import { useNavigate } from "react-router-dom";
 import "./css/BookTableStyle.css";
 
-export const BookTable = ({ books, onDelete }) => {
+export const BookTable = ({ books, onDelete, currentUser }) => {
 
     const naviator = useNavigate();
 
     const editBook = (book) => {
-        naviator(`/edit/${book.id}`);
+        if(book.userId === currentUser.id){
+            naviator(`/edit/${book.id}`);
+        }
     }
 
     return <div className="tab-content table-responsive">
@@ -33,8 +35,12 @@ export const BookTable = ({ books, onDelete }) => {
                             <td scope="row" className="col-5">{book.description.slice(0, 100)} {book.description.length >= 100 ? '...' : ''}</td>
                             <td scope="row" className="col-1">{book.genre}</td>
                             <td scope="row" className="col-1">
-                                <FiEdit onClick={() => editBook(book)} className="icon mx-2" />
-                                <FiTrash2 onClick={() => onDelete(book.id)} className="icon" />
+                                <FiEdit
+                                    onClick={() => editBook(book)}
+                                    className={`icon mx-2 ${book.userId !== currentUser.id ? 'disabled': ''}`} />
+                                <FiTrash2 
+                                    onClick={() =>  onDelete(book)}
+                                    className={`icon ${book.userId !== currentUser.id ? 'disabled': ''}`} />
                             </td>
                         </tr>
                     )

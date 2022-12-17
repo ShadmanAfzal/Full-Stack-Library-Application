@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import "./css/Book.css"
 import { Loader } from './components/Loader';
 
-export const EditBook = () => {
+export const EditBook = ({currentUser}) => {
 
     const navigate = useNavigate();
     const location = useLocation();

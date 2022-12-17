@@ -23,13 +23,15 @@ export const getBooks = async (req, res, next) => {
 export const addBooks = async (req, res, next) => {
     try {
 
+        const userId = req.user.id;
+
         const validationResult = booksValidator.validate(req.body);
 
         if (validationResult.error) {
             return next(new BookError(400, validationResult.error.message));
         }
 
-        const data = await BookRepository.addBooks(req.body);
+        const data = await BookRepository.addBooks(req.body, userId);
 
         res.json({ success: true, data: data, message: 'book added successfully' });
 

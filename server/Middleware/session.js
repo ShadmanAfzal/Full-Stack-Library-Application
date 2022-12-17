@@ -7,9 +7,4 @@ export const express_session = session({
     secret: config.SESSION_SECRET,
     saveUninitialized: true,
     resave: false,
-    // cookie: {
-    //     secure: false,
-    //     path: 'cookie',
-    //     expires: new Date(Date.now() + 60 * 60 * 1000 * 24 * 365)
-    // }
 })

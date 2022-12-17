@@ -1,3 +1,7 @@
 .icon{
     cursor: pointer;
 }
+
+.disabled {
+    color: #d3d3d3;
+}

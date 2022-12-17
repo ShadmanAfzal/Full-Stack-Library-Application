@@ -12,7 +12,7 @@ import { HiDownload, HiPlus } from 'react-icons/hi'
 
 
 
-export const Books = () => {
+export const Books = ({currentUser}) => {
 
     const navigator = useNavigate();
 
@@ -22,7 +22,9 @@ export const Books = () => {
     const [page, setPage] = useState(1);
     const [sortBy, setSortBy] = useState();
 
-    const onDeleteHanlder = async (id) => {
+    const onDeleteHanlder = async ({id, userId}) => {
+
+        if(userId !== currentUser.id) return;
 
         const deleteResult = await fetch(`${BASE_URL}/books/${id}`, { method: 'DELETE' })
 
@@ -152,7 +154,7 @@ export const Books = () => {
                 </button>
             </div>
         </div>
-        <BookTable books={books} onDelete={onDeleteHanlder} />
+        <BookTable books={books} onDelete={onDeleteHanlder} currentUser={currentUser} />
         <div className="d-flex justify-content-center">
             <Pagination
                 count={totalPage}

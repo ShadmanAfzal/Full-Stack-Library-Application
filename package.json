@@ -19,6 +19,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.10",
     "bootstrap": "^5.2.2",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "excel4node": "^1.8.0",

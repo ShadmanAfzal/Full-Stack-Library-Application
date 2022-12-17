@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import BookClient from "../Database/client.js";
+import db from "../Database/client.js";
 import { SortBooks } from "../Services/sortBooks.js";
 import BookError from "../utils/error/error.js";
 
@@ -8,7 +8,7 @@ const ITEM_PER_PAGE = 5;
 
 export const getBooks = async (currentPage, sortBy) => {
 
-    const result = await BookClient.findAll({ raw: true });
+    const result = await db.BookDB.findAll({ raw: true });
 
     const sortedResult = SortBooks(result, sortBy);
 
@@ -19,7 +19,7 @@ export const getBooks = async (currentPage, sortBy) => {
 
 export const searchBooks = async (currentPage, searchQuery) => {
 
-    const result = await BookClient.findAll({
+    const result = await db.BookDB.findAll({
         raw: true,
         where: {
             [Op.or]: [
@@ -49,7 +49,7 @@ export const searchBooks = async (currentPage, searchQuery) => {
 
 export const filterBooks = async (currentPage, filterBooks, sortBy) => {
 
-    const result = await BookClient.findAll({
+    const result = await db.BookDB.findAll({
         raw: true,
         where: {
             genre: filterBooks
@@ -63,13 +63,17 @@ export const filterBooks = async (currentPage, filterBooks, sortBy) => {
     return { 'totalPage': Math.ceil(result.length / ITEM_PER_PAGE), 'currentPage': currentPage, 'count': paginatedResult.length, data: paginatedResult };
 }
 
-export const addBooks = async (book) => {
+export const addBooks = async (book, userId) => {
 
     if (!book.genre) {
         book.genre = '';
     }
 
-    const insertedBook = await BookClient.create(book);
+    const insertedBook = await db.BookDB.create({
+        'userId': userId,
+        ...book,
+    });
+
     return insertedBook.get();
 }
 
@@ -79,7 +83,7 @@ export const updateBooks = async (id, book) => {
         throw new BookError(404, 'Book not found');
     }
 
-    const result = await BookClient.update(book, { where: { "id": id }, returning: true });
+    const result = await db.BookDB.update(book, { where: { "id": id }, returning: true });
 
     return { 'success': true, 'message': 'book details updated successfully', data: result[1] };
 }
@@ -90,7 +94,7 @@ export const deleteBooks = async (id) => {
         throw new BookError(404, 'Book not found');
     }
 
-    const count = await BookClient.destroy({ where: { id: id } });
+    const count = await db.BookDB.destroy({ where: { id: id } });
 
     if (!count) {
         throw new BookError(404, 'Book not found');
@@ -105,7 +109,7 @@ export const getBookById = async (id) => {
         throw new BookError(404, 'Book not found');
     }
 
-    const bookDetail = await BookClient.findOne({ where: { id: id } })
+    const bookDetail = await db.BookDB.findOne({ where: { id: id } })
 
     if (!bookDetail) {
         throw new BookError(404, 'Book not found');
@@ -115,6 +119,6 @@ export const getBookById = async (id) => {
 }
 
 export const dowloadBooks = async () => {
-    const books = await BookClient.findAll({ order: [['modified_date', 'DESC']] });
+    const books = await db.BookDB.findAll({ order: [['modified_date', 'DESC']] });
     return books;
 }
