@@ -4,32 +4,15 @@ import { AddBook } from './components/Books/AddBook';
 import { EditBook } from './components/Books/EditBook';
 import { SearchBooks } from './components/Books/SearchBooks';
 import App from './App';
+import axios from "axios";
+import { Books } from "./components/Books/Books";
 
-export const Router = () => {
-    const [user, setUser] = useState({});
-
-    const getUserDetails = async () => {
-        const userResponse = await fetch('/user', {
-            method: 'GET',
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        });
-
-        const user_details = await userResponse.json();
-
-        console.log(user_details);
-
-        setUser(user_details);
-    }
-
-    useEffect(() => {
-        getUserDetails();
-    }, [])
-
+export const Router = (props) => {
     return <HashRouter>
         <Routes>
-            <Route path='/' element={<App user={user}/>} />
-            <Route path='/add' element={<AddBook />} />
-            <Route path='/edit/:id' exact element={<EditBook currentUser={user}/>} />
+            <Route path='/' element={<Books {...props} exact/>} />
+            <Route path='/add' element={<AddBook {...props} exact/>} />
+            <Route path='/edit/:id' exact element={<EditBook />} />
             <Route path='/search' element={<SearchBooks />} />
         </Routes>
     </HashRouter>;

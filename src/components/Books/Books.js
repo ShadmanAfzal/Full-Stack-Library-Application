@@ -9,16 +9,17 @@ import { Dropdown } from "../../utils/Dropdown";
 import { Pagination } from "@mui/material";
 import { BOOK_CATEGORY, SORT_BY } from "../../utils/enum";
 import { HiDownload, HiPlus } from 'react-icons/hi'
+import axios from "axios";
 
 
 
-export const Books = ({currentUser}) => {
+export const Books = (currentUser) => {
 
     const navigator = useNavigate();
 
     const [books, setBooks] = useState([]);
     const [totalPage, setTotalPage] = useState();
-    const [filter, setFilter] = useState();
+    const [filter, setFilter] = useState(null);
     const [page, setPage] = useState(1);
     const [sortBy, setSortBy] = useState();
 
@@ -51,7 +52,6 @@ export const Books = ({currentUser}) => {
             utils.book_append_sheet(workbook, worksheet, "Sheet1");
             writeFile(workbook, "DataSheet.xlsx");
         }
-
     }
 
     async function fetchBooks(page) {
@@ -87,21 +87,13 @@ export const Books = ({currentUser}) => {
             uri = `${BASE_URL}/books/filter?page=${page}`;
         }
 
-        const response = await fetch(uri,
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    'filter': filter
-                }),
-                headers: { "Content-type": "application/json; charset=UTF-8" }
-            }
-        );
+        const response = await axios.post(uri, {filter});
 
-        const responseBody = await response.json();
+        const { data } = response;
 
-        const books = responseBody.data;
+        const books = data.data;
 
-        setTotalPage(responseBody.totalPage);
+        setTotalPage(data.totalPage);
 
         setBooks(books);
     }
@@ -133,10 +125,10 @@ export const Books = ({currentUser}) => {
         fetchBooks(1);
     }, []);
 
-    return <div className="container my-2">
+    return <div className="container my-2" id="container">
         <div className="d-flex justify-content-end">
             <div className="d-flex gap-2">
-                <Dropdown title={'Sort By'} filterHandler={sortHandler} values={SORT_BY} />
+                <Dropdown title={'Sort By'} id="sort" filterHandler={sortHandler} values={SORT_BY} />
                 <Dropdown title={'Filter By'} filterHandler={filterHandler} values={BOOK_CATEGORY} />
                 <button
                     className="btn btn-sm bg-dark text-white"

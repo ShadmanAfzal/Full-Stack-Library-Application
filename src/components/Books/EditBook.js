@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import "./css/Book.css"
 import { Loader } from './components/Loader';
 
-export const EditBook = ({currentUser}) => {
+export const EditBook = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -36,7 +36,7 @@ export const EditBook = ({currentUser}) => {
             const jsonRespone = await bookResponse.json();
             console.log(jsonRespone);
 
-            await new Promise((resolve, reject) => setTimeout(()=> resolve(), 2000));
+            await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
 
             setBookDetails({
                 id: jsonRespone.data.id,
@@ -70,10 +70,10 @@ export const EditBook = ({currentUser}) => {
 
     const onSubmitHandler = async (values, id) => {
 
-        delete values.id;
-
         const fetchResult = await fetch(`${BASE_URL}/books/${id}`, {
-            method: 'PATCH', body: JSON.stringify(values), headers: {
+            method: 'PATCH',
+            body: JSON.stringify(values),
+            headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         });
@@ -88,9 +88,10 @@ export const EditBook = ({currentUser}) => {
         alert(jsonResult.message);
     }
 
-    return <div>
-        <AppBar />
-        {isLoading && <Loader />}
+    return <>
+        {
+            isLoading && <Loader />
+        }
         <div className='container'>
             <div className='row'>
                 <div className='col-md-7'>
@@ -121,11 +122,12 @@ export const EditBook = ({currentUser}) => {
                         </Formik>
                     </div>
                 </div>
+
                 <div className='col-md-5'>
                     <img src={bookImage} id='bookImage' className='img-fluid my-auto w-100' alt='bookImage' />
                 </div>
 
             </div>
         </div>
-    </div>
+    </>
 }

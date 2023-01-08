@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppBar } from '../Navbar/Appbar';
 import { Formik, Form } from "formik";
 import { TextField } from './components/TextField';
 import { useNavigate } from "react-router-dom";
@@ -9,25 +8,23 @@ import bookImage from '../../assets/book.jpg';
 import * as Yup from "yup";
 import "./css/Book.css"
 
-export const AddBook = () => {
+export const AddBook = ({ name }) => {
 
     const navigate = useNavigate();
 
     const validator = Yup.object({
-        title: Yup.string()
-            .required('Title is required'),
-        author: Yup.string()
-            .required('Author name required'),
+        title: Yup.string().required('Title is required'),
+        author: Yup.string().required('Author name required'),
         description: Yup.string().required('Description is required'),
         photo_url: Yup.string().url('Invalid url').required('Image url is required'),
     })
 
     const initialValue = {
-        title: "",
-        author: "",
-        description: "",
-        photo_url: "",
-        genre: ""
+        title: '',
+        author: name,
+        description: '',
+        photo_url: '',
+        genre: ''
     }
 
     const onSubmitHandler = async (values) => {
@@ -48,45 +45,46 @@ export const AddBook = () => {
         alert(jsonResult.message);
     }
 
-    return <div>
-        <AppBar />
-        <div className='container'>
-            <div className='row'>
-                <div className='col-md-7'>
-                    <div className="book-form">
-                        <h2 className="my-4 font-weight-bold-display-4"> Add books Details</h2>
-                        <Formik
-                            initialValues={initialValue}
-                            validationSchema={validator}
-                        >
-                            {(formik) => {
-                                return <Form onSubmit={
-                                    (e) => {
-                                        e.preventDefault();
-                                        if (formik.isValid) {
-                                            onSubmitHandler(formik.values)
+    return (
+        <>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-md-7'>
+                        <div className="book-form">
+                            <h2 className="my-4 font-weight-bold-display-4"> Add books Details</h2>
+                            <Formik
+                                initialValues={initialValue}
+                                validationSchema={validator}
+                            >
+                                {(formik) => {
+                                    return <Form onSubmit={
+                                        (e) => {
+                                            e.preventDefault();
+                                            if (formik.isValid) {
+                                                onSubmitHandler(formik.values)
+                                            }
                                         }
-                                    }
-                                }>
-                                    <TextField label="Title" name="title" type="text" />
-                                    <TextField label="Author" name="author" type="text" />
-                                    <TextField useTextArea label="Description" name="description" type="text" />
-                                    <TextField label="Image" name="photo_url" type="url" />
-                                    <GenreSelector onGenreChange={(genre) => formik.values.genre = genre} />
-                                    <button className={`btn w-100 my-2 btn-dark`}>Submit</button>
-                                </Form>
-                            }}
-                        </Formik>
+                                    }>
+                                        <TextField label="Title" name="title" type="text" />
+                                        <TextField label="Author" name="author" type="text" />
+                                        <TextField useTextArea label="Description" name="description" type="text" />
+                                        <TextField label="Image" name="photo_url" type="url" />
+                                        <GenreSelector onGenreChange={(genre) => formik.values.genre = genre} />
+                                        <button className={`btn w-100 my-2 btn-dark`}>Submit</button>
+                                    </Form>
+                                }}
+                            </Formik>
+                        </div>
                     </div>
-                </div>
-                <div className='col-md-5'>
-                    <img src={bookImage}
-                        id='bookImage'
-                        className='img-fluid my-auto'
-                        alt='bookImage' />
-                </div>
+                    <div className='col-md-5'>
+                        <img src={bookImage}
+                            id='bookImage'
+                            className='img-fluid my-auto'
+                            alt='bookImage' />
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </div>
+        </>
+    );
 }
