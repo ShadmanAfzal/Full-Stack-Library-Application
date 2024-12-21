@@ -1,6 +1,7 @@
 # Full Stack Library Application
 Full Stack Library Application built with PERN Stack.
 
+![application dashboard](https://shadmanafzal.in/_next/image?url=%2Fimages%2Flibrary-fullstack-application.png&w=1920&q=75)
 ## Built on
 
 <div style="display: flex; flex-direction: row;">
